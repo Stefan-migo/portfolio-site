@@ -1,76 +1,65 @@
-"use client"; // This component needs to run on the client
+"use client"; // This component interacts with the DOM and p5.js instance
 
-import React, { useState, useEffect } from 'react';
-import { ReactP5Wrapper } from '@p5-wrapper/next'; // Import from the new package
-import type { Sketch, P5CanvasInstance } from '@p5-wrapper/react'; // Types might still come from the core package (peer dependency)
+import React, { useRef, useEffect, useState } from 'react';
+import p5 from 'p5'; // Import p5 directly
 
 interface P5RunnerProps {
-  sketchPath: string; // e.g., "interactive-particles-sketch/sketch.js" relative to a base path
-  // We might need to pass the full project path later depending on how scripts are loaded
+  sketchPath: string; // e.g., "cursor-particles/sketch.js" relative to p5-projects
 }
 
-// Basic placeholder sketch function
-const placeholderSketch: Sketch = (p5: P5CanvasInstance) => { // Added type for p5 parameter
-  p5.setup = () => {
-    p5.createCanvas(400, 400);
-    p5.background(200);
-  };
-
-  p5.draw = () => {
-    p5.fill(255, 0, 0);
-    p5.ellipse(p5.width / 2, p5.height / 2, 50, 50);
-  };
-};
-
 const P5Runner: React.FC<P5RunnerProps> = ({ sketchPath }) => {
-  const [sketch, setSketch] = useState<Sketch | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null); // Ref for the container div
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let instance: p5 | null = null; // Variable to hold the p5 instance
+
     setLoading(true);
     setError(null);
-    setSketch(null); // Clear previous sketch
 
-    // Dynamically import the sketch module
-    // Note: The path needs to be relative to the `src` directory or configured alias
-    // Assuming sketchPath is like "cursor-particles/sketch.js"
-    // and p5-projects is directly under src
+    // Dynamically import the sketch function
     import(`@/p5-projects/${sketchPath}`)
       .then((module) => {
         if (module && typeof module.sketch === 'function') {
-          setSketch(() => module.sketch); // Set the imported sketch function
+          // Ensure the container ref is available
+          if (containerRef.current) {
+            // Create the p5 instance, passing the sketch function and the container
+            instance = new p5(module.sketch, containerRef.current);
+            setLoading(false);
+          } else {
+            throw new Error("Container ref not available for p5 instance.");
+          }
         } else {
           throw new Error(`Sketch function not found or not exported correctly in ${sketchPath}`);
         }
       })
       .catch((err) => {
-        console.error(`Error loading sketch ${sketchPath}:`, err);
+        console.error(`Error loading or initializing sketch ${sketchPath}:`, err);
         setError(`Failed to load sketch: ${err.message}`);
-      })
-      .finally(() => {
         setLoading(false);
       });
 
+    // Cleanup function to remove the p5 instance when the component unmounts or sketchPath changes
+    return () => {
+      if (instance) {
+        instance.remove();
+        instance = null; // Clear the instance variable
+        console.log(`p5 instance removed for ${sketchPath}`);
+      }
+    };
   }, [sketchPath]); // Re-run effect if sketchPath changes
 
-  if (loading) {
-    return <div className="aspect-square w-full bg-muted flex items-center justify-center text-muted-foreground">Loading Sketch...</div>;
-  }
-
-  if (error) {
-    return <div className="aspect-square w-full bg-destructive text-destructive-foreground flex items-center justify-center">{error}</div>;
-  }
-
-  if (!sketch) {
-     return <div className="aspect-square w-full bg-muted flex items-center justify-center text-muted-foreground">Sketch not available.</div>;
-  }
-
+  // Render loading/error states or the container for p5
   return (
-    // Added a container div for sizing and potential styling
-    // Added id for the canvas parent reference in sketch.js setup()
-    <div id="p5-canvas-container" className="w-full h-full flex items-center justify-center bg-card">
-      {sketch && <ReactP5Wrapper sketch={sketch} />}
+    <div ref={containerRef} className="w-full h-full flex items-center justify-center bg-card relative">
+      {loading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-muted text-muted-foreground">Loading Sketch...</div>
+      )}
+      {error && (
+        <div className="absolute inset-0 flex items-center justify-center bg-destructive text-destructive-foreground p-4 text-center">{error}</div>
+      )}
+      {/* The p5 canvas will be attached here by the p5 instance */}
     </div>
   );
 };
