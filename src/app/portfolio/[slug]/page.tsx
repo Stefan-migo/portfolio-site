@@ -29,7 +29,8 @@ export async function generateStaticParams() {
 }
 
 export default async function ArtworkPage({ params }: ArtworkPageProps) { // Make component async
-  const artwork: Artwork | undefined = await getArtworkById(params.slug); // Await the result
+  const slug = params.slug; // Extract slug before await
+  const artwork: Artwork | undefined = await getArtworkById(slug); // Use the extracted slug
 
   // Handle case where artwork is not found
   if (!artwork) {
