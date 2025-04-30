@@ -1,8 +1,8 @@
 "use client"; // This component needs to run on the client
 
 import React, { useState, useEffect } from 'react';
-import { ReactP5Wrapper } from '@p5-wrapper/react'; // Updated package name
-import type { Sketch, P5CanvasInstance } from '@p5-wrapper/react'; // Import Sketch and P5CanvasInstance types
+import { ReactP5Wrapper } from '@p5-wrapper/next'; // Import from the new package
+import type { Sketch, P5CanvasInstance } from '@p5-wrapper/react'; // Types might still come from the core package (peer dependency)
 
 interface P5RunnerProps {
   sketchPath: string; // e.g., "interactive-particles-sketch/sketch.js" relative to a base path
@@ -28,17 +28,31 @@ const P5Runner: React.FC<P5RunnerProps> = ({ sketchPath }) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // TODO: Implement dynamic loading of the actual sketch script based on sketchPath.
-    // This is complex because scripts need to be loaded and executed in the browser context.
-    // For now, we'll just use the placeholder sketch.
-    // A potential approach involves dynamically creating a <script> tag or using dynamic import()
-    // if the p5 projects are structured as modules.
-    console.warn(`P5Runner: Dynamic sketch loading for "${sketchPath}" not yet implemented. Using placeholder.`);
-    setSketch(() => placeholderSketch); // Use placeholder for now
-    setLoading(false);
-    // In a real implementation, handle errors during script loading here.
-    // setError("Failed to load sketch script.");
-  }, [sketchPath]);
+    setLoading(true);
+    setError(null);
+    setSketch(null); // Clear previous sketch
+
+    // Dynamically import the sketch module
+    // Note: The path needs to be relative to the `src` directory or configured alias
+    // Assuming sketchPath is like "cursor-particles/sketch.js"
+    // and p5-projects is directly under src
+    import(`@/p5-projects/${sketchPath}`)
+      .then((module) => {
+        if (module && typeof module.sketch === 'function') {
+          setSketch(() => module.sketch); // Set the imported sketch function
+        } else {
+          throw new Error(`Sketch function not found or not exported correctly in ${sketchPath}`);
+        }
+      })
+      .catch((err) => {
+        console.error(`Error loading sketch ${sketchPath}:`, err);
+        setError(`Failed to load sketch: ${err.message}`);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+
+  }, [sketchPath]); // Re-run effect if sketchPath changes
 
   if (loading) {
     return <div className="aspect-square w-full bg-muted flex items-center justify-center text-muted-foreground">Loading Sketch...</div>;
@@ -53,9 +67,10 @@ const P5Runner: React.FC<P5RunnerProps> = ({ sketchPath }) => {
   }
 
   return (
-    <div className="border rounded-md overflow-hidden">
-       {/* Ensure the wrapper takes appropriate space */}
-      <ReactP5Wrapper sketch={sketch} />
+    // Added a container div for sizing and potential styling
+    // Added id for the canvas parent reference in sketch.js setup()
+    <div id="p5-canvas-container" className="w-full h-full flex items-center justify-center bg-card">
+      {sketch && <ReactP5Wrapper sketch={sketch} />}
     </div>
   );
 };

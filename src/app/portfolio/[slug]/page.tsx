@@ -2,8 +2,10 @@ import React from 'react';
 import { getArtworkById, getArtworks, getP5ProjectFiles } from '@/lib/data'; // Import data fetching functions
 import { notFound } from 'next/navigation'; // Import notFound for handling missing artwork
 import Image from 'next/image'; // For displaying images
-import P5Runner from '@/components/P5Runner'; // Import P5Runner
-import CodeViewer from '@/components/CodeViewer'; // Import CodeViewer
+import P5Runner from '@/components/P5Runner'; // Re-add static import
+import CodeViewer from '@/components/CodeViewer'; // Re-add static import
+// import dynamic from 'next/dynamic'; // Remove dynamic import
+// import ArtworkP5Display from '@/components/ArtworkP5Display'; // Remove wrapper import
 import {
   ResizableHandle,
   ResizablePanel,
@@ -77,25 +79,23 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) { // Mak
           return <p className="mb-6">p5 project path not specified.</p>;
         }
         const codeFiles = getP5ProjectFiles(artwork.p5projectPath);
-        // Construct a representative path for P5Runner (actual loading logic is TODO in P5Runner)
+        // Construct the sketch path relative to the p5-projects directory
         const sketchPath = `${artwork.p5projectPath}/sketch.js`;
 
+        // Render P5Runner and CodeViewer directly again
         return (
-          // Removed border class for minimalist look
           <ResizablePanelGroup
             direction="horizontal"
-            className="w-full rounded-lg mb-8 min-h-[400px] max-h-[70vh] bg-card" // Use card bg, increased bottom margin
+            className="w-full rounded-lg mb-8 min-h-[400px] max-h-[70vh] bg-card"
           >
             <ResizablePanel defaultSize={60}>
-              <div className="flex h-full items-center justify-center p-1 bg-muted/50 rounded-l-lg"> {/* Added subtle bg */}
-                {/* P5Runner will eventually load the sketch based on sketchPath */}
+              <div className="flex h-full items-center justify-center p-1 bg-muted/50 rounded-l-lg">
                 <P5Runner sketchPath={sketchPath} />
               </div>
             </ResizablePanel>
-            <ResizableHandle withHandle className="bg-border" /> {/* Style handle */}
+            <ResizableHandle withHandle className="bg-border" />
             <ResizablePanel defaultSize={40}>
-               <div className="flex h-full items-center justify-center overflow-hidden rounded-r-lg"> {/* Added overflow hidden */}
-                 {/* CodeViewer displays the fetched files */}
+               <div className="flex h-full items-center justify-center overflow-hidden rounded-r-lg">
                  <CodeViewer files={codeFiles} defaultTab="sketch.js" />
                </div>
             </ResizablePanel>
