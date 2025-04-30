@@ -24,8 +24,7 @@ export default async function PortfolioPage() { // Make component async
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {artworks.map((artwork: Artwork) => ( // Added explicit type for artwork
-            (<Link key={artwork.id} href={`/portfolio/${artwork.id}`} legacyBehavior passHref>
-              <a className="block group">
+            <Link key={artwork.id} href={`/portfolio/${artwork.id}`} className="block group"> {/* Removed legacyBehavior, passHref, nested <a> and extra () */}
                 <Card className="h-full flex flex-col overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-[1.02]"> {/* Added hover effect */}
                   <CardHeader className="p-0 relative aspect-video">
                     {artwork.thumbnailUrl ? (
@@ -63,8 +62,7 @@ export default async function PortfolioPage() { // Make component async
                      {/* Removed type display from footer */}
                   </CardFooter>
                 </Card>
-              </a>
-            </Link>)
+            </Link>
           ))}
         </div>
       )}
