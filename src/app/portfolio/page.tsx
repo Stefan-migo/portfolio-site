@@ -24,8 +24,8 @@ export default async function PortfolioPage() { // Make component async
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {artworks.map((artwork: Artwork) => ( // Added explicit type for artwork
-            <Link key={artwork.id} href={`/portfolio/${artwork.id}`} className="block group"> {/* Removed legacyBehavior, passHref, nested <a> and extra () */}
-                <Card className="h-full flex flex-col overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-[1.02]"> {/* Added hover effect */}
+            <Link key={artwork.id} href={`/portfolio/${artwork.id}`} className="block group"> {/* Link itself is the group */}
+                <Card className="h-full flex flex-col overflow-hidden bg-card border-none shadow-none rounded-lg transition-colors duration-200 group-hover:bg-secondary/50"> {/* Minimal card styling, subtle hover */}
                   <CardHeader className="p-0 relative aspect-video">
                     {artwork.thumbnailUrl ? (
                       <Image
@@ -55,7 +55,7 @@ export default async function PortfolioPage() { // Make component async
                     {artwork.tags && artwork.tags.length > 0 && (
                       <div className="flex flex-wrap gap-1">
                         {artwork.tags.slice(0, 3).map((tag: string) => ( // Added explicit type for tag
-                          (<Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>) // Restored variant
+                          <Badge key={tag} variant="outline" className="text-xs font-normal border-muted-foreground/50 text-muted-foreground">{tag}</Badge> // Minimal outline badge
                         ))}
                       </div>
                     )}

@@ -26,7 +26,7 @@ export default async function ShopPage() {
           {products.map((product: Product) => { // Use curly braces for map body
             return ( // Explicit return
               <Link href={`/shop/${product.id}`} key={product.id} className="block group">
-                <Card className="overflow-hidden h-full flex flex-col transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
+                <Card className="overflow-hidden h-full flex flex-col bg-card border-none shadow-none rounded-lg transition-colors duration-200 group-hover:bg-secondary/50"> {/* Minimal card styling */}
                   <CardHeader className="p-0 relative aspect-square">
                     <div className="bg-muted w-full h-full flex items-center justify-center text-muted-foreground">
                       {product.mockupImageUrls && product.mockupImageUrls.length > 0 ? (
@@ -60,7 +60,7 @@ export default async function ShopPage() {
                      {product.tags && product.tags.length > 0 && (
                       <div className="flex flex-wrap gap-1">
                         {product.tags.slice(0, 3).map((tag: string) => (
-                          <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>
+                          <Badge key={tag} variant="outline" className="text-xs font-normal border-muted-foreground/50 text-muted-foreground">{tag}</Badge> // Minimal outline badge
                         ))}
                       </div>
                     )}

@@ -6,6 +6,7 @@ import { useCart } from '@/context/CartContext';
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge"; // Import Badge
 import { Product, PrintOption } from '@/lib/types'; // Import types
 
 interface ProductDetailsClientProps {
@@ -49,10 +50,11 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
   return (
     <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
       {/* Image Gallery/Mockups */}
+      {/* Image Gallery/Mockups */}
       <div className="space-y-4">
         {/* Display first mockup image prominently */}
         {product.mockupImageUrls && product.mockupImageUrls.length > 0 && (
-          <div className="aspect-square border rounded-lg overflow-hidden">
+          <div className="aspect-square rounded-lg overflow-hidden bg-card"> {/* Removed border, ensure bg */}
             <Image
               src={product.mockupImageUrls[0]}
               alt={product.title}
@@ -65,9 +67,11 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
         {/* Optional: Add thumbnails for other mockups */}
       </div>
       {/* Product Details & Options */}
-      <div className="space-y-6">
-        <h1 className="text-3xl lg:text-4xl font-bold">{product.title}</h1>
-        <p className="text-muted-foreground">{product.description}</p>
+      <div className="space-y-8"> {/* Increased spacing */}
+        <div className="space-y-2"> {/* Group title/description */}
+          <h1 className="text-3xl lg:text-4xl font-bold">{product.title}</h1>
+          <p className="text-muted-foreground text-lg">{product.description}</p> {/* Slightly larger description */}
+        </div>
 
         {/* Print Options Selection */}
         <RadioGroup
@@ -90,10 +94,11 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
               <Label
                 key={optionId}
                 htmlFor={optionId}
-                className="flex items-center justify-between border p-3 rounded-md cursor-pointer hover:bg-accent has-[input:checked]:ring-2 has-[input:checked]:ring-primary"
+                // Simplified styling: remove border, use padding, subtle hover/checked state
+                className="flex items-center justify-between p-4 rounded-md cursor-pointer hover:bg-muted/50 has-[input:checked]:bg-muted"
               >
                 <div>
-                  <p className="font-medium">
+                  <p className="font-medium text-foreground"> {/* Ensure foreground color */}
                     {option.type} - {option.size} {option.material ? `(${option.material})` : ''}
                   </p>
                   {/* <p className="text-sm text-muted-foreground">Details if any...</p> */}
@@ -117,15 +122,13 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
            Add to Cart
         </Button>
 
-         {/* Display Tags */}
+         {/* Display Tags using Badge */}
          {product.tags && product.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 pt-4">
-            <span className="font-medium text-sm">Tags:</span>
-            {product.tags.map((tag: string) => ( // Added explicit type
-                (<span key={tag} className="px-2 py-0.5 text-xs bg-secondary text-secondary-foreground rounded-full">
-                  {tag}
-                </span>)
-            ))}
+            <div className="flex flex-wrap items-center gap-2 pt-4">
+              <span className="text-sm font-medium text-muted-foreground">Tags:</span>
+              {product.tags.map((tag: string) => (
+                 <Badge key={tag} variant="outline" className="text-xs font-normal border-muted-foreground/50 text-muted-foreground">{tag}</Badge> // Use outline badge
+              ))}
             </div>
          )}
       </div>
