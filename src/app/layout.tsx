@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Header from "@/components/Header"; // Import Header
+import Footer from "@/components/Footer"; // Import Footer
+import GridPattern from "@/components/magicui/grid-pattern"; // Corrected Import Path
+import { CartProvider } from "@/context/CartContext"; // Import CartProvider
+import { cn } from "@/lib/utils"; // Import cn utility
 import "./globals.css";
 
 const geistSans = Geist({
@@ -24,10 +29,30 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={cn(geistSans.variable, geistMono.variable, "antialiased")}>
+        <CartProvider> {/* Wrap content with CartProvider */}
+          <div className="relative flex flex-col min-h-screen">
+            {/* Add GridPattern as a background */}
+            <GridPattern
+            width={40}
+            height={40}
+            x={-1}
+            y={-1}
+            className={cn(
+              "[mask-image:linear-gradient(to_bottom_right,white,transparent,transparent)] ",
+              "absolute inset-0 h-full w-full stroke-gray-200 dark:stroke-gray-800",
+            )}
+          />
+          {/* Ensure content is above the pattern */}
+          <div className="relative z-10 flex flex-col flex-grow">
+            <Header />
+            <main className="flex-grow container mx-auto px-4 py-8">
+              {children}
+            </main>
+            <Footer />
+          </div>
+        </div>
+       </CartProvider> {/* Close CartProvider */}
       </body>
     </html>
   );

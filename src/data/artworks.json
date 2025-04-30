@@ -1,0 +1,37 @@
+[
+  {
+    "id": "cosmic-bloom",
+    "title": "Cosmic Bloom",
+    "description": "An exploration of procedural generation mimicking natural growth patterns in a celestial environment.",
+    "date": "2024-01-20",
+    "type": "image",
+    "tags": ["generative", "abstract", "nature", "digital"],
+    "thumbnailUrl": "/images/thumbnails/cosmic-bloom.jpg",
+    "sourceUrl": "/images/full/cosmic-bloom.png",
+    "dimensions": {
+      "width": 1920,
+      "height": 1080,
+      "unit": "px"
+    }
+  },
+  {
+    "id": "interactive-particles",
+    "title": "Interactive Particles",
+    "description": "A simple particle system reacting to mouse movements, built with p5.js.",
+    "date": "2024-04-10",
+    "type": "p5",
+    "tags": ["interactive", "p5js", "particles"],
+    "thumbnailUrl": "/images/thumbnails/interactive-particles.jpg",
+    "p5projectPath": "interactive-particles-sketch"
+  },
+  {
+    "id": "ambient-soundscape",
+    "title": "Ambient Soundscape",
+    "description": "A generative sound piece creating a calming atmosphere.",
+    "date": "2023-11-05",
+    "type": "sound",
+    "tags": ["generative", "audio", "ambient"],
+    "thumbnailUrl": "/images/thumbnails/ambient-soundscape.jpg",
+    "sourceUrl": "/audio/ambient-soundscape.mp3"
+  }
+]

@@ -1,0 +1,31 @@
+[
+  {
+    "id": "cosmic-bloom-print",
+    "title": "Cosmic Bloom - Fine Art Print",
+    "description": "A high-quality print of the 'Cosmic Bloom' generative artwork. Available in multiple sizes.",
+    "linkedArtworkId": "cosmic-bloom",
+    "printOptions": [
+      { "type": "Fine Art Print", "size": "A4 (21x29.7cm)", "material": "Hahnemühle Photo Rag", "price": 35.00 },
+      { "type": "Fine Art Print", "size": "A3 (29.7x42cm)", "material": "Hahnemühle Photo Rag", "price": 55.00 },
+      { "type": "Fine Art Print", "size": "A2 (42x59.4cm)", "material": "Hahnemühle Photo Rag", "price": 80.00 }
+    ],
+    "mockupImageUrls": [
+      "/images/mockups/cosmic-bloom-print-mockup1.jpg",
+      "/images/mockups/cosmic-bloom-print-mockup2.jpg"
+    ],
+    "tags": ["print", "fine art", "generative"]
+  },
+  {
+    "id": "ambient-soundscape-download",
+    "title": "Ambient Soundscape - Digital Download",
+    "description": "Digital download of the 'Ambient Soundscape' generative audio piece.",
+    "linkedArtworkId": "ambient-soundscape",
+     "printOptions": [
+      { "type": "Digital Download", "size": "MP3 (320kbps)", "price": 5.00 }
+    ],
+    "mockupImageUrls": [
+      "/images/mockups/ambient-soundscape-mockup.jpg"
+    ],
+    "tags": ["audio", "download", "ambient"]
+  }
+]
