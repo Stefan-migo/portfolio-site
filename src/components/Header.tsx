@@ -11,9 +11,11 @@ import { Cart } from "@/components/Cart"; // Import the Cart component
 
 const Header = () => {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    // Removed border-b, simplified background/backdrop classes
+    <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur">
       <nav className="container h-14 flex items-center justify-between">
         <Link href="/" className="font-bold text-lg mr-6">
+          {/* TODO: Replace with actual artist name or logo */}
           Artist Name
         </Link>
          <NavigationMenu>
