@@ -14,7 +14,7 @@ export const sketch = (p5) => {
   p5.draw = () => {
     // Use background color from CSS variables if possible, otherwise default
     // background(getComputedStyle(document.documentElement).getPropertyValue('--background') || '#121212'); // Example
-    p5.background(18, 18, 18, 50); // Dark background with slight transparency for trail effect
+    p5.background(255, 255, 255, 100); // Dark background with slight transparency for trail effect
 
     // Create new particles at mouse position
     for (let i = 0; i < 2; i++) { // Add a few particles each frame
@@ -34,20 +34,22 @@ export const sketch = (p5) => {
   class Particle {
     constructor(x, y) {
       this.position = p5.createVector(x, y); // Use p5 instance methods
-      // Add randomness to velocity for spread effect
-      this.velocity = p5.createVector(p5.random(-1.5, 1.5), p5.random(-1.5, 1.5));
+      // Add randomness to velocity for spread effect - Explicitly assign random values
+      let velX = p5.random(-1.5, 1.5);
+      let velY = p5.random(-1.5, 1.5);
+      this.velocity = p5.createVector(velX, velY);
       // Start with a slightly larger size and shrink
       this.size = p5.random(5, 10);
       // Fade out over time
       this.alpha = 255;
       // Use foreground color from CSS or default
-      // this.color = p5.color(getComputedStyle(document.documentElement).getPropertyValue('--foreground') || '#f2f2f2');
-      this.color = p5.color(242, 242, 242); // Off-white
+      this.color = p5.color(getComputedStyle(document.documentElement).getPropertyValue('--foreground') || '#f2f2f2');
+      // this.color = p5.color(0); // Off-white
   }
 
   update() {
     this.position.add(this.velocity);
-    this.alpha -= 4; // Fade speed
+    this.alpha -= 3; // Fade speed
     this.size *= 0.98; // Shrink speed
     }
 

@@ -2,10 +2,9 @@ import React from 'react';
 import { getArtworkById, getArtworks, getP5ProjectFiles } from '@/lib/data'; // Import data fetching functions
 import { notFound } from 'next/navigation'; // Import notFound for handling missing artwork
 import Image from 'next/image'; // For displaying images
-import P5Runner from '@/components/P5Runner'; // Re-add static import
-import CodeViewer from '@/components/CodeViewer'; // Re-add static import
-// import dynamic from 'next/dynamic'; // Remove dynamic import
-// import ArtworkP5Display from '@/components/ArtworkP5Display'; // Remove wrapper import
+// import P5Runner from '@/components/P5Runner'; // Remove static import
+// import CodeViewer from '@/components/CodeViewer'; // Remove static import
+import ArtworkP5Display from '@/components/ArtworkP5Display'; // Import the wrapper
 import {
   ResizableHandle,
   ResizablePanel,
@@ -79,27 +78,13 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) { // Mak
           return <p className="mb-6">p5 project path not specified.</p>;
         }
         const codeFiles = getP5ProjectFiles(artwork.p5projectPath);
-        // Construct the sketch path relative to the p5-projects directory
-        const sketchPath = `${artwork.p5projectPath}/sketch.js`;
 
-        // Render P5Runner and CodeViewer directly again
+        // Render the client component wrapper
         return (
-          <ResizablePanelGroup
-            direction="horizontal"
-            className="w-full rounded-lg mb-8 min-h-[400px] max-h-[70vh] bg-card"
-          >
-            <ResizablePanel defaultSize={60}>
-              <div className="flex h-full items-center justify-center p-1 bg-muted/50 rounded-l-lg">
-                <P5Runner sketchPath={sketchPath} />
-              </div>
-            </ResizablePanel>
-            <ResizableHandle withHandle className="bg-border" />
-            <ResizablePanel defaultSize={40}>
-               <div className="flex h-full items-center justify-center overflow-hidden rounded-r-lg">
-                 <CodeViewer files={codeFiles} defaultTab="sketch.js" />
-               </div>
-            </ResizablePanel>
-          </ResizablePanelGroup>
+          <ArtworkP5Display
+            p5projectPath={artwork.p5projectPath}
+            codeFiles={codeFiles}
+          />
         );
       }
       default:
