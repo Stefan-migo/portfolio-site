@@ -16,20 +16,20 @@ export default function Home() {
       <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
         Explore a collection of generative art, interactive projects, and unique digital creations.
        </p>
-       <div className="flex flex-wrap justify-center gap-4">
-         {/* Removed passHref and legacyBehavior */}
-         <Link href="/portfolio">
-           {/* Removed size="lg" */}
-           <Button>Explore Portfolio</Button>
-         </Link>
-         {/* Removed passHref and legacyBehavior */}
-         <Link href="/shop">
-           {/* Removed size="lg" variant="secondary" */}
-           <Button> {/* Use default variant */}
-             Visit Shop
-          </Button>
-       </Link>
-     </div>
+      <div className="flex flex-wrap justify-center gap-4">
+        {/* Removed passHref and legacyBehavior */}
+        <Link href="/portfolio" legacyBehavior>
+          {/* Removed size="lg" */}
+          <Button>Explore Portfolio</Button>
+        </Link>
+        {/* Removed passHref and legacyBehavior */}
+        <Link href="/shop" legacyBehavior>
+          {/* Removed size="lg" variant="secondary" */}
+          <Button> {/* Use default variant */}
+            Visit Shop
+         </Button>
+      </Link>
+    </div>
       {/* Optional: Add a section showcasing recent works or featured categories */}
     </section>
   );

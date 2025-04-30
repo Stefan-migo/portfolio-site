@@ -64,7 +64,6 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
         )}
         {/* Optional: Add thumbnails for other mockups */}
       </div>
-
       {/* Product Details & Options */}
       <div className="space-y-6">
         <h1 className="text-3xl lg:text-4xl font-bold">{product.title}</h1>
@@ -123,9 +122,9 @@ export default function ProductDetailsClient({ product }: ProductDetailsClientPr
             <div className="flex flex-wrap gap-2 pt-4">
             <span className="font-medium text-sm">Tags:</span>
             {product.tags.map((tag: string) => ( // Added explicit type
-                <span key={tag} className="px-2 py-0.5 text-xs bg-secondary text-secondary-foreground rounded-full">
-                {tag}
-                </span>
+                (<span key={tag} className="px-2 py-0.5 text-xs bg-secondary text-secondary-foreground rounded-full">
+                  {tag}
+                </span>)
             ))}
             </div>
          )}

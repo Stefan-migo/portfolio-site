@@ -19,13 +19,12 @@ export default async function PortfolioPage() { // Make component async
   return (
     <div className="container mx-auto px-4 py-8"> {/* Added container styling */}
       <h1 className="text-3xl font-bold mb-8 text-center">Artwork Portfolio</h1> {/* Centered title */}
-
       {artworks.length === 0 ? (
-        <p className="text-center text-muted-foreground">No artworks found.</p> // Improved styling
+        (<p className="text-center text-muted-foreground">No artworks found.</p>) // Improved styling
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {artworks.map((artwork: Artwork) => ( // Added explicit type for artwork
-            <Link key={artwork.id} href={`/portfolio/${artwork.id}`} legacyBehavior passHref>
+            (<Link key={artwork.id} href={`/portfolio/${artwork.id}`} legacyBehavior passHref>
               <a className="block group">
                 <Card className="h-full flex flex-col overflow-hidden transition-all duration-300 hover:shadow-lg hover:scale-[1.02]"> {/* Added hover effect */}
                   <CardHeader className="p-0 relative aspect-video">
@@ -57,7 +56,7 @@ export default async function PortfolioPage() { // Make component async
                     {artwork.tags && artwork.tags.length > 0 && (
                       <div className="flex flex-wrap gap-1">
                         {artwork.tags.slice(0, 3).map((tag: string) => ( // Added explicit type for tag
-                          <Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge> // Restored variant
+                          (<Badge key={tag} variant="secondary" className="text-xs">{tag}</Badge>) // Restored variant
                         ))}
                       </div>
                     )}
@@ -65,7 +64,7 @@ export default async function PortfolioPage() { // Make component async
                   </CardFooter>
                 </Card>
               </a>
-            </Link>
+            </Link>)
           ))}
         </div>
       )}

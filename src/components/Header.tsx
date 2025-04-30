@@ -20,7 +20,7 @@ const Header = () => {
            <NavigationMenuList>
              <NavigationMenuItem>
                {/* Corrected: Removed legacyBehavior/passHref from Link, added asChild to NavLink */}
-               <Link href="/portfolio">
+               <Link href="/portfolio" legacyBehavior>
                  <NavigationMenuLink className={navigationMenuTriggerStyle()} asChild>
                    Portfolio {/* Content directly inside NavLink */}
                  </NavigationMenuLink>
@@ -28,7 +28,7 @@ const Header = () => {
              </NavigationMenuItem>
              <NavigationMenuItem>
                {/* Corrected: Removed legacyBehavior/passHref from Link, added asChild to NavLink */}
-               <Link href="/shop">
+               <Link href="/shop" legacyBehavior>
                  <NavigationMenuLink className={navigationMenuTriggerStyle()} asChild>
                    Shop
                  </NavigationMenuLink>
@@ -36,7 +36,7 @@ const Header = () => {
              </NavigationMenuItem>
              <NavigationMenuItem>
                {/* Corrected: Removed legacyBehavior/passHref from Link, added asChild to NavLink */}
-               <Link href="/nft">
+               <Link href="/nft" legacyBehavior>
                  <NavigationMenuLink className={navigationMenuTriggerStyle()} asChild>
                    NFTs
                  </NavigationMenuLink>
@@ -44,7 +44,7 @@ const Header = () => {
              </NavigationMenuItem>
              <NavigationMenuItem>
                {/* Corrected: Removed legacyBehavior/passHref from Link, added asChild to NavLink */}
-               <Link href="/about">
+               <Link href="/about" legacyBehavior>
                  <NavigationMenuLink className={navigationMenuTriggerStyle()} asChild>
                    About
                  </NavigationMenuLink>
