@@ -19,32 +19,32 @@ const Header = () => {
          <NavigationMenu>
            <NavigationMenuList>
              <NavigationMenuItem>
-               {/* Corrected: Removed legacyBehavior/passHref from Link, added asChild to NavLink */}
-               <Link href="/portfolio" legacyBehavior>
+               {/* Fixed: Removed legacyBehavior */}
+               <Link href="/portfolio">
                  <NavigationMenuLink className={navigationMenuTriggerStyle()} asChild>
-                   Portfolio {/* Content directly inside NavLink */}
+                   Portfolio
                  </NavigationMenuLink>
                </Link>
              </NavigationMenuItem>
              <NavigationMenuItem>
-               {/* Corrected: Removed legacyBehavior/passHref from Link, added asChild to NavLink */}
-               <Link href="/shop" legacyBehavior>
+               {/* Fixed: Removed legacyBehavior */}
+               <Link href="/shop">
                  <NavigationMenuLink className={navigationMenuTriggerStyle()} asChild>
                    Shop
                  </NavigationMenuLink>
                </Link>
              </NavigationMenuItem>
              <NavigationMenuItem>
-               {/* Corrected: Removed legacyBehavior/passHref from Link, added asChild to NavLink */}
-               <Link href="/nft" legacyBehavior>
+               {/* Fixed: Removed legacyBehavior */}
+               <Link href="/nft">
                  <NavigationMenuLink className={navigationMenuTriggerStyle()} asChild>
                    NFTs
                  </NavigationMenuLink>
                </Link>
              </NavigationMenuItem>
              <NavigationMenuItem>
-               {/* Corrected: Removed legacyBehavior/passHref from Link, added asChild to NavLink */}
-               <Link href="/about" legacyBehavior>
+               {/* Fixed: Removed legacyBehavior */}
+               <Link href="/about">
                  <NavigationMenuLink className={navigationMenuTriggerStyle()} asChild>
                    About
                  </NavigationMenuLink>
