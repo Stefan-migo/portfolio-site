@@ -12,9 +12,10 @@ export const sketch = (p5) => {
   };
 
   p5.draw = () => {
-    // Use background color from CSS variables if possible, otherwise default
-    // background(getComputedStyle(document.documentElement).getPropertyValue('--background') || '#121212'); // Example
-    p5.background(255, 255, 255, 100); // Dark background with slight transparency for trail effect
+    p5.clear(); // Explicitly clear canvas each frame
+    // Read background color from CSS variable or use fallback
+    const bgColor = p5.color(getComputedStyle(document.documentElement).getPropertyValue('--background').trim() || 'hsl(0, 0%, 7%)');
+    p5.background(bgColor); // Use theme background color
 
     // Create new particles at mouse position
     for (let i = 0; i < 2; i++) { // Add a few particles each frame
@@ -33,24 +34,24 @@ export const sketch = (p5) => {
 
   class Particle {
     constructor(x, y) {
-      this.position = p5.createVector(x, y); // Use p5 instance methods
-      // Add randomness to velocity for spread effect - Explicitly assign random values
-      let velX = p5.random(-1.5, 1.5);
-      let velY = p5.random(-1.5, 1.5);
-      this.velocity = p5.createVector(velX, velY);
+      // Create position vector differently to test warning source
+      this.position = p5.createVector();
+      this.position.x = x;
+      this.position.y = y;
+      // Restore random velocity creation (warning seems unrelated to this specific call)
+      this.velocity = p5.createVector(p5.random(-1.5, 1.5), p5.random(-1.5, 1.5));
       // Start with a slightly larger size and shrink
-      this.size = p5.random(5, 10);
+      this.size = p5.random(4, 8); // Keep slightly smaller start size
       // Fade out over time
       this.alpha = 255;
-      // Use foreground color from CSS or default
-      this.color = p5.color(getComputedStyle(document.documentElement).getPropertyValue('--foreground') || '#f2f2f2');
-      // this.color = p5.color(0); // Off-white
+      // Read foreground color from CSS variable or use fallback
+      this.color = p5.color(getComputedStyle(document.documentElement).getPropertyValue('--foreground').trim() || 'hsl(0, 0%, 95%)');
   }
 
   update() {
-    this.position.add(this.velocity);
-    this.alpha -= 3; // Fade speed
-    this.size *= 0.98; // Shrink speed
+    this.position.add(this.velocity); // Use add method now that velocity is a vector
+    this.alpha -= 0.8; // Very slow fade speed
+    this.size *= 0.995; // Keep very slow shrink speed
     }
 
     display() {
