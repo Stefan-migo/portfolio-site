@@ -9,6 +9,8 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable"; // Import Resizable components
+import { Badge } from "@/components/ui/badge"; // Import Badge component
+import { Artwork } from '@/lib/types'; // Import Artwork type
 
 // Define params type for type safety
 interface ArtworkPageProps {
@@ -16,8 +18,6 @@ interface ArtworkPageProps {
     slug: string;
   };
 }
-
-import { Artwork } from '@/lib/types'; // Import Artwork type
 
 // Function to generate static paths for SSG (optional but good practice)
 export async function generateStaticParams() {
@@ -81,19 +81,20 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) { // Mak
         const sketchPath = `${artwork.p5projectPath}/sketch.js`;
 
         return (
+          // Removed border class for minimalist look
           <ResizablePanelGroup
             direction="horizontal"
-            className="w-full rounded-lg border mb-6 min-h-[400px] max-h-[70vh]" // Added min/max height
+            className="w-full rounded-lg mb-8 min-h-[400px] max-h-[70vh] bg-card" // Use card bg, increased bottom margin
           >
             <ResizablePanel defaultSize={60}>
-              <div className="flex h-full items-center justify-center p-1">
+              <div className="flex h-full items-center justify-center p-1 bg-muted/50 rounded-l-lg"> {/* Added subtle bg */}
                 {/* P5Runner will eventually load the sketch based on sketchPath */}
                 <P5Runner sketchPath={sketchPath} />
               </div>
             </ResizablePanel>
-            <ResizableHandle withHandle />
+            <ResizableHandle withHandle className="bg-border" /> {/* Style handle */}
             <ResizablePanel defaultSize={40}>
-               <div className="flex h-full items-center justify-center">
+               <div className="flex h-full items-center justify-center overflow-hidden rounded-r-lg"> {/* Added overflow hidden */}
                  {/* CodeViewer displays the fetched files */}
                  <CodeViewer files={codeFiles} defaultTab="sketch.js" />
                </div>
@@ -107,31 +108,34 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) { // Mak
   };
 
   return (
-    <div>
+    <div className="container mx-auto px-4 py-8 max-w-5xl"> {/* Added container and max-width */}
       {/* Render the main artwork content */}
       {renderArtworkContent()}
-      {/* Display Artwork Details */}
-      <h1 className="text-4xl font-bold mb-2">{artwork.title}</h1>
-      <p className="text-lg text-muted-foreground mb-4">{artwork.date}</p>
-      <p className="mb-6">{artwork.description}</p>
-      {/* Display Tags */}
-      {artwork.tags && artwork.tags.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-6">
-          {artwork.tags.map((tag: string) => ( // Added explicit type
-            (<span key={tag} className="px-3 py-1 text-sm bg-secondary text-secondary-foreground rounded-full">
-              {tag}
-            </span>)
-            // Could use Shadcn Badge here too if preferred
-          ))}
-        </div>
-      )}
-      {/* Display other details like dimensions if available */}
-      {artwork.dimensions && (
-         <p className="text-sm text-muted-foreground">
+
+      {/* Details Section */}
+      <div className="mt-8"> {/* Added margin-top */}
+        <h1 className="text-3xl md:text-4xl font-bold mb-2">{artwork.title}</h1>
+        <p className="text-md text-muted-foreground mb-4">{artwork.date}</p>
+        <p className="mb-6 text-foreground/90">{artwork.description}</p> {/* Slightly less prominent description */}
+
+        {/* Display Tags using Badge */}
+        {artwork.tags && artwork.tags.length > 0 && (
+          <div className="flex flex-wrap gap-2 mb-6">
+            {artwork.tags.map((tag: string) => (
+               <Badge key={tag} variant="outline" className="text-xs font-normal border-muted-foreground/50 text-muted-foreground">{tag}</Badge> // Use outline badge
+            ))}
+          </div>
+        )}
+
+        {/* Display other details like dimensions if available */}
+        {artwork.dimensions && (
+         <p className="text-sm text-muted-foreground mt-4"> {/* Added margin-top */}
            Dimensions: {artwork.dimensions.width} x {artwork.dimensions.height} {artwork.dimensions.unit}
          </p>
-      )}
-      {/* Add more details as needed */}
+        )}
+        {/* Add more details as needed */}
+      </div>
+      {/* Removed stray closing brace from previous attempts */}
     </div>
   );
 }
